@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+.slider{
+    position: relative;
+    margin-top: 100px;
+    width: 100%;
+    height: 370px;
+    overflow: hidden;
+}
+.item{
+    position: absolute;
+    width: 200px;
+    height: 320px;
+    text-align: justify;
+    border-radius: 10px;
+    padding: 20px;
+    transition:  0.5s;
+    left: calc(50% - 110px);
+    top: 0;
+}
+#next{
+    position: absolute;
+    right: 50px;
+    top: 40%;
+}
+#prev{
+    position: absolute;
+    left: 50px;
+    top: 40%;
+}
+#prev, #next{
+    color: #ec0c0c;
+    background: none;
+    border: none;
+    font-size: xxx-large;
+    font-family: monospace;
+    font-weight: bold;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+}
+#prev:hover,
+#next:hover{
+    opacity: 1;
+}
+    </style>
+</head>
+<body>
+        <div class="slider">
+            <div class="item">
+               <img src="ailo" alt="">
+            </div>
+            <div class="item">
+                <h1>Slide 2</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item">
+                <h1>Slide 3</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <div class="item ">
+                <h1>Slide 1</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas ipsa similique magni adipisci accusamus consectetur fuga facilis doloremque dignissimos incidunt, reiciendis molestias dolore pariatur illum enim ipsum nostrum ab blanditiis? Voluptas, nostrum facere. Distinctio saepe facilis cumque! Voluptate, cumque.
+            </div>
+            <button id="next">></button>
+            <button id="prev"><</button>
+        </div>
+        <script>
+            let items = document.querySelectorAll('.slider .item');
+let active = 3;
+function loadShow(){
+    items[active].style.transform = `none`;
+    items[active].style.zIndex = 1;
+    items[active].style.filter = 'none';
+    items[active].style.opacity = 1;
+    // show after
+    let stt = 0;
+    for(var i = active + 1; i < items.length; i ++){
+        stt++;
+        items[i].style.transform = `translateX(${120*stt}px) scale(${1 - 0.2*stt}) perspective(16px) rotateY(-1deg)`;
+        items[i].style.zIndex = -stt;
+        items[i].style.filter = 'blur(5px)';
+        items[i].style.opacity = stt > 2 ? 0 : 0.6;
+    }
+     stt = 0;
+    for(var i = (active - 1); i >= 0; i --){
+        stt++;
+        items[i].style.transform = `translateX(${-120*stt}px) scale(${1 - 0.2*stt}) perspective(16px) rotateY(1deg)`;
+        items[i].style.zIndex = -stt;
+        items[i].style.filter = 'blur(5px)';
+        items[i].style.opacity = stt > 2 ? 0 : 0.6;
+    }
+}
+loadShow();
+let next = document.getElementById('next');
+let prev = document.getElementById('prev');
+next.onclick = function(){
+   active = active + 1 < items.length ?  active + 1 : active;
+   loadShow();
+}
+prev.onclick = function(){
+    active = active - 1 >= 0 ? active -1 : active;
+    loadShow();
+}
+        </script>
+        <script src="script.js"></script>
+    </body>
+</html>
