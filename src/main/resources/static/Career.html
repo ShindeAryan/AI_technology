@@ -83,14 +83,25 @@
         background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .modal-content {
+    /* .modal-content {
         background-color: white;
         margin: 15% auto;
         padding: 20px;
         border-radius: 8px;
         width: 50%;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+    } */
+    .modal-content {
+    position: absolute;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    margin: 5% auto; 
+}
+
 
     .modal-content h2 {
         text-align: center;
@@ -284,49 +295,46 @@
             </div>
         </nav>
     </header>
-
     <main>
         <section id="jobs" class="section">
             <div class="container">
                 <h2>Available Job Opportunities</h2>
                 <div class="job-listings">
                     <div class="job-item">
-                        <h3> BIW Fixture Designer</h3>
-                        <!-- <p><strong>Location:</strong> </p> -->
+                        <h3>BIW Fixture Designer</h3>
                         <p><strong>Job Description:</strong> Lead the design of custom BIW fixtures for automotive manufacturing. Work closely with engineering teams to ensure precision and efficiency.</p>
-                        <button class="btn" onclick="openModal('applyForm')">Apply Now</button>
+                        <button class="btn" onclick="openModal('applyForm', 'BIW Fixture Designer')">Apply Now</button>
                     </div>
                     <div class="job-item">
                         <h3>BIW Product Designer</h3>
-                        <!-- <p><strong>Location:</strong> </p> -->
-                        <p><strong>Job Description:</strong>Lead the design and development of custom BIW fixtures for automotive manufacturing, collaborating with engineering teams to ensure optimal precision and efficiency.</p>
-                        <button class="btn" onclick="openModal('applyForm')">Apply Now</button>
+                        <p><strong>Job Description:</strong> Lead the design and development of custom BIW fixtures for automotive manufacturing, collaborating with engineering teams to ensure optimal precision and efficiency.</p>
+                        <button class="btn" onclick="openModal('applyForm', 'BIW Product Designer')">Apply Now</button>
                     </div>
                     <div class="job-item">
-                        <h3>Plastic Product Designer </h3>
-                        <!-- <p><strong>Location:</strong> </p> -->
-                        <p><strong>Job Description:</strong>Lead the design and development of plastic components for various applications, collaborating with engineering teams to ensure optimal functionality, durability, and manufacturability.
-                        </p>
-                        <button class="btn" onclick="openModal('applyForm')">Apply Now</button>
+                        <h3>Plastic Product Designer</h3>
+                        <p><strong>Job Description:</strong> Lead the design and development of plastic components for various applications, collaborating with engineering teams to ensure optimal functionality, durability, and manufacturability.</p>
+                        <button class="btn" onclick="openModal('applyForm', 'Plastic Product Designer')">Apply Now</button>
                     </div>
-                    
                 </div>
             </div>
         </section>
+    
         <div id="applyForm" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
                 <h2>Apply for Job</h2>
-                <form action="/career/submit" method="POST">
+                <form action="submit_application.php" method="POST" enctype="multipart/form-data">
+                    <label for="jobTitle">Job Title:</label>
+                    <input type="text" id="jobTitle" name="jobTitle" readonly>
+    
                     <label for="name">Full Name:</label>
                     <input type="text" id="name" name="name" required>
-
+    
                     <label for="mobile">Mobile Number:</label>
                     <input type="number" id="mobile" name="mobile" required>
     
                     <label for="email">Email Address:</label>
                     <input type="email" id="email" name="email" required>               
-
+    
                     <label for="resume">Upload Resume:</label>
                     <input type="file" id="resume" name="resume" required>
     
@@ -337,34 +345,35 @@
                 </form>
             </div>
         </div>
-        
     </main>
+    
     <footer>
         <div class="footer1">
             <pre>
-      
-              Copyright &copy AI Technologies 2025 All right reserved
+              Copyright &copy AI Technologies 2025 All rights reserved
               aitdesigns69@gmail.com
               +91 7058897873
         </div>       
-      </footer>
+    </footer>
+    
     <script>
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = "block";
-}
-
-function closeModal() {
-    document.getElementById("applyForm").style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target === document.getElementById("applyForm")) {
-        closeModal();
+    function openModal(modalId, jobTitle) {
+        document.getElementById(modalId).style.display = "block";
+        document.getElementById("jobTitle").value = jobTitle;
     }
-}
-
+    
+    function closeModal() {
+        document.getElementById("applyForm").style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target === document.getElementById("applyForm")) {
+            closeModal();
+        }
+    }
     </script>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
+
