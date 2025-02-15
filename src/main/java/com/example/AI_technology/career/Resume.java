@@ -5,9 +5,8 @@ import jakarta.persistence.*;
 @Entity
 public class Resume {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @Column(name = "fileType")
     private String fileType;
     @Lob
     private byte[] data;
