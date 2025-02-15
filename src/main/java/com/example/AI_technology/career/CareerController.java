@@ -1,6 +1,8 @@
 package com.example.AI_technology.career;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,15 +19,15 @@ public class CareerController {
 
 
     @PostMapping("/submit")
-    public RedirectView submit(@RequestParam("name") String name, @RequestParam("mobile") long mobile,@RequestParam("email") String email, @RequestParam("resume") MultipartFile file, @RequestParam("coverLetter") String letter,@RequestParam("jobTitle") String jobtitle){
+    public ResponseEntity submit(@RequestParam("name") String name, @RequestParam("mobile") long mobile,@RequestParam("email") String email, @RequestParam("resume") MultipartFile file, @RequestParam("coverLetter") String letter,@RequestParam("jobTitle") String jobtitle){
 
-        try {
-            careerService.save(name, email, mobile, jobtitle, letter, file);
-        }
-        catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-        return new RedirectView("/Career.html");
+            if(careerService.save(name, email, mobile, jobtitle, letter, file)){
+                return new ResponseEntity("success", HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity("error",HttpStatus.BAD_REQUEST);
+            }
+
     }
 
 }

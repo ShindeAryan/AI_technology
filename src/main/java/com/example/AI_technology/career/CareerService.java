@@ -1,4 +1,5 @@
 package com.example.AI_technology.career;
+import com.example.AI_technology.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,18 +20,10 @@ public class CareerService {
 
     @Transactional
     public boolean save(String name, String email, long mobile, String role,
-                        String coverLetter, MultipartFile resumeFile) throws IOException {
+                        String coverLetter, MultipartFile resumeFile){
         // Save Job first
-        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        //Compile regular expression to get the pattern
-        Pattern pattern = Pattern.compile(regex);
 
-
-        Matcher matcher = pattern.matcher(email);
-
-        String mno = (String.valueOf(mobile));
-
-        if(matcher.matches() && mno.length() == 10){
+        if(Validator.validateEmail(email) && Validator.validateMobileNumber(mobile)){
             Job job = new Job();
             job.setName(name);
             job.setEmail(email);
@@ -41,10 +34,15 @@ public class CareerService {
 
             // Save Resume with the same ID as Job
             Resume resume = new Resume();
-            resume.setId(savedJob.getId());
+            try {
 
-            resume.setFileType(resumeFile.getContentType());
-            resume.setData(resumeFile.getBytes());
+                resume.setId(savedJob.getId());
+                resume.setFileType(resumeFile.getContentType());
+                resume.setData(resumeFile.getBytes());
+            }
+            catch(Exception e){
+                return false;
+            }
             resumeRepository.save(resume);
             return true;
         }

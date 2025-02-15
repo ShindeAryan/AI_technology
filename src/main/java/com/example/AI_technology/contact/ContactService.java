@@ -1,5 +1,6 @@
 package com.example.AI_technology.contact;
 
+import com.example.AI_technology.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +13,15 @@ public class ContactService {
     @Autowired
     ContactRepository contactRepository;
 
-    public Contact saveContact(Contact contact){
-        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        //Compile regular expression to get the pattern
-        Pattern pattern = Pattern.compile(regex);
+    public boolean saveContact(Contact contact){
 
-        String emailid = contact.getEmail();
-        Matcher matcher = pattern.matcher(emailid);
+        if(Validator.validateEmail(contact.getEmail()) && Validator.validateMobileNumber(contact.getMno())){
+            contactRepository.save(contact);
+            return true;
 
-        String mno = (String.valueOf(contact.getMno()));
-
-        if(matcher.matches() && mno.length() == 10){
-            return contactRepository.save(contact);
         }
         else{
-            return null;
+            return false;
         }
     }
 }

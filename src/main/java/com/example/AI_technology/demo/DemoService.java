@@ -1,5 +1,6 @@
 package com.example.AI_technology.demo;
 
+import com.example.AI_technology.utils.Validator;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,15 @@ public class DemoService {
     @Autowired
     DemoRepository demoRepository;
 
-    public Demo saveDemo(Demo demo){
-        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        //Compile regular expression to get the pattern
-        Pattern pattern = Pattern.compile(regex);
+    public boolean saveDemo(Demo demo){
 
-        String emailid = demo.getEmail();
-        Matcher matcher = pattern.matcher(emailid);
 
-        String mno = (String.valueOf(demo.getMno()));
-
-        if(matcher.matches() && mno.length() == 10){
-            return demoRepository.save(demo);
+        if(Validator.validateEmail(demo.getEmail()) && Validator.validateMobileNumber(demo.getMno())){
+            demoRepository.save(demo);
+            return true;
         }
         else{
-            return null;
+            return false;
         }
     }
 
