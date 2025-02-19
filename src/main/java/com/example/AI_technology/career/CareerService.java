@@ -21,28 +21,34 @@ public class CareerService {
     @Transactional
     public boolean save(String name, String email, long mobile, String role,
                         String coverLetter, MultipartFile resumeFile){
-        // Save Job first
 
         if(Validator.validateEmail(email) && Validator.validateMobileNumber(mobile)){
+
+            String FileType;
+            byte[] data;
+
+            try {
+                FileType = resumeFile.getContentType();
+                data = resumeFile.getBytes();
+            }catch(Exception e){
+                return false;
+            }
             Job job = new Job();
             job.setName(name);
             job.setEmail(email);
             job.setMno(mobile);
             job.setRole(role);
             job.setCoverletter(coverLetter);
-            Job savedJob = jobRepository.save(job); // This generates the auto-increment ID
+            Job savedJob = jobRepository.save(job);
 
-            // Save Resume with the same ID as Job
+
             Resume resume = new Resume();
-            try {
 
-                resume.setId(savedJob.getId());
-                resume.setFileType(resumeFile.getContentType());
-                resume.setData(resumeFile.getBytes());
-            }
-            catch(Exception e){
-                return false;
-            }
+
+            resume.setId(savedJob.getId());
+            resume.setFileType(FileType);
+            resume.setData(data);
+
             resumeRepository.save(resume);
             return true;
         }
